@@ -1,5 +1,6 @@
 package au.com.venilia.emailais;
 
+import java.net.URI;
 import java.util.Properties;
 
 import javax.mail.PasswordAuthentication;
@@ -47,7 +48,7 @@ public class Config implements ApplicationContextAware {
     @Bean
     public SignalKClientManager signalKClientManager(final SignalKClient signalKClient) {
 
-        return new SignalKClientManager(signalKClient, 1000);
+        return new SignalKClientManager(signalKClient, URI.create("ws://" + cli.getOptionValue("signalk") + "/signalk/v1/stream?subscribe=none"), 1000);
     }
 
     @Bean

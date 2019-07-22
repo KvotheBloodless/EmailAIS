@@ -1,8 +1,7 @@
 package au.com.venilia.emailais.signalk;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.springframework.context.ApplicationEvent;
-
-import com.google.common.base.MoreObjects;
 
 import au.com.venilia.emailais.signalk.SignalKClient.SignalKPath;
 
@@ -31,6 +30,6 @@ public class SignalKMessageEvent extends ApplicationEvent {
     @Override
     public String toString() {
 
-        return MoreObjects.toStringHelper(this).add("source", source).add("path", path).add("value", value).toString();
+        return ToStringBuilder.reflectionToString(this);
     }
 }

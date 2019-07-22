@@ -28,15 +28,12 @@ public class SignalKClientManager {
 
     private URI endpointUri;
 
-    public SignalKClientManager(final SignalKClient client, final long connectDelay) {
+    public SignalKClientManager(final SignalKClient client, final URI endpointUri, final long connectDelay) {
 
         this.client = client;
         this.connectDelay = connectDelay;
-    }
-
-    public void setEndpointUri(final URI endpointUri) {
-
         this.endpointUri = endpointUri;
+
         openConnection();
     }
 

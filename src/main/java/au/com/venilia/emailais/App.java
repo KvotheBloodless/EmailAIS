@@ -3,10 +3,6 @@ package au.com.venilia.emailais;
 import java.io.IOException;
 import java.net.URI;
 
-import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceEvent;
-import javax.jmdns.ServiceListener;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -20,7 +16,7 @@ import org.springframework.context.ApplicationContext;
 
 import au.com.venilia.emailais.signalk.SignalKClientManager;
 
-public class App implements ServiceListener {
+public class App {
 
     public final static String SIGNALK = "signalk";
     public final static String MMSI = "mmsi";
@@ -36,23 +32,11 @@ public class App implements ServiceListener {
 
     private final CliAnnotationConfigApplicationContext ctx;
 
-    private SignalKClientManager signalKClientManager;
-
     public App(final CommandLine commandLine) throws IOException {
 
         ctx = new CliAnnotationConfigApplicationContext(commandLine);
         ctx.register(Config.class);
         ctx.refresh();
-
-        signalKClientManager = ctx.getBean(SignalKClientManager.class);
-
-        if (commandLine.getOptionValue("signalk") != null)
-            signalKClientManager
-                    .setEndpointUri(URI.create("ws://" + commandLine.getOptionValue("signalk") + "/signalk/v1/stream?subscribe=none"));
-
-        // Create a JmDNS instance and add a service listener
-        final JmDNS jmDNS = JmDNS.create();
-        jmDNS.addServiceListener("_signalk-ws._tcp.local.", this);
 
         final Thread runThread = new Thread() {
 
@@ -100,6 +84,7 @@ public class App implements ServiceListener {
 
         try {
 
+            LOG.info("Launching Email AIS");
             new App(parseCliArguments(args));
         } catch (final ParseException | IOException parseException) {
 
@@ -112,7 +97,7 @@ public class App implements ServiceListener {
         final Options options = new Options();
 
         final Option a = new Option("k", SIGNALK, true, "ex: --" + SIGNALK + " host:port");
-        a.setRequired(false);
+        a.setRequired(true);
         options.addOption(a);
 
         final Option b = new Option("i", MMSI, true, "ex: --" + MMSI + " 123456789");
@@ -131,7 +116,8 @@ public class App implements ServiceListener {
         e.setRequired(false);
         options.addOption(e);
 
-        final Option f = new Option("s", REPORT_SENDER, true, "ex: --" + REPORT_SENDER + " joe@gmail.com (defaults to value from " + GMAIL_USERNAME + " parmeter)");
+        final Option f = new Option("s", REPORT_SENDER, true,
+                "ex: --" + REPORT_SENDER + " joe@gmail.com (defaults to value from " + GMAIL_USERNAME + " parmeter)");
         f.setRequired(false);
         options.addOption(f);
 
@@ -153,25 +139,5 @@ public class App implements ServiceListener {
             formatter.printHelp("java -jar EmailAIS-[version].jar <options>", options);
             throw pe;
         }
-    }
-
-    @Override
-    public void serviceAdded(final ServiceEvent event) {
-
-        LOG.debug("Network service added: " + event.getInfo());
-
-        signalKClientManager.setEndpointUri(URI.create(event.getInfo().getURLs("ws")[0] + "/v1/stream"));
-    }
-
-    @Override
-    public void serviceRemoved(final ServiceEvent event) {
-
-        LOG.debug("Network service removed: " + event.getInfo());
-    }
-
-    @Override
-    public void serviceResolved(final ServiceEvent event) {
-
-        LOG.debug("Network service resolved: " + event.getInfo());
     }
 }

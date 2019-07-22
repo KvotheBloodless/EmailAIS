@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.google.common.base.MoreObjects;
 
 import au.com.venilia.emailais.signalk.SignalKClient;
 import au.com.venilia.emailais.signalk.SignalKClient.SignalKPath;
@@ -153,7 +152,7 @@ public class Value__ {
         @Override
         public String toString() {
 
-            return MoreObjects.toStringHelper(this).add("state", state).add("method", method).add("message", message).toString();
+            return ToStringBuilder.reflectionToString(this);
         }
     }
 
@@ -183,7 +182,7 @@ public class Value__ {
         @Override
         public String toString() {
 
-            return MoreObjects.toStringHelper(this).add("longitude", longitude).add("latitude", latitude).toString();
+            return ToStringBuilder.reflectionToString(this);
         }
     }
 
@@ -222,7 +221,7 @@ public class Value__ {
         @Override
         public String toString() {
 
-            return MoreObjects.toStringHelper(this).add("yaw", yaw).add("pitch", pitch).add("roll", roll).toString();
+            return ToStringBuilder.reflectionToString(this);
         }
     }
 

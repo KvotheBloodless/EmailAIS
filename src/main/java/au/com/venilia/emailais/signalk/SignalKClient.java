@@ -86,7 +86,6 @@ public class SignalKClient {
     public void onClose(final Session userSession, final CloseReason reason) {
 
         this.userSession = null;
-        // manager.openConnection();
     }
 
     @OnMessage
@@ -142,9 +141,9 @@ public class SignalKClient {
 
     public static enum SignalKPath {
 
-        COG("navigation.courseOverGroundTrue", Optional.empty(), Optional.of(30000), true),
-        POSITION("navigation.position", Optional.of(Value__.Position.class), Optional.of(30000), true),
-        SOG("navigation.speedOverGround", Optional.empty(), Optional.of(30000), true);
+        COG("navigation.courseOverGroundTrue", Optional.empty(), Optional.of(5000), true),
+        POSITION("navigation.position", Optional.of(Value__.Position.class), Optional.of(5000), true),
+        SOG("navigation.speedOverGround", Optional.empty(), Optional.of(5000), true);
 
         private final String path;
 
