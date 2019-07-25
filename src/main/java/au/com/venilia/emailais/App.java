@@ -1,7 +1,6 @@
 package au.com.venilia.emailais;
 
 import java.io.IOException;
-import java.net.URI;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -13,8 +12,6 @@ import org.apache.commons.cli.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-
-import au.com.venilia.emailais.signalk.SignalKClientManager;
 
 public class App {
 
