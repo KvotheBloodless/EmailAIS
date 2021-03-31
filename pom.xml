@@ -27,7 +27,7 @@
         <commons-cli.version>1.4</commons-cli.version>
         <commons-lang.version>2.6</commons-lang.version>
         <javatuples.version>1.2</javatuples.version>
-        <guava.version>28.0-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <jmdns.version>3.4.1</jmdns.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <logback.version>1.1.7</logback.version>
